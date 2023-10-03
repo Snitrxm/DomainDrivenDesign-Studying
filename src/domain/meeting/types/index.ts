@@ -1,0 +1,1 @@
+export type IMeetingStatus = "CREATED" | "IN_PROGRESS" | "FINISHED";

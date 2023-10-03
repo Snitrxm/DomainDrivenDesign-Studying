@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { CreateMeetingService } from "../services/create-meeting.service";
+import { UpdateMeetingService } from "../services/update-meeting.service";
 
 export class MeetingController {
   public async create(req: Request, res: Response){
@@ -10,6 +11,14 @@ export class MeetingController {
       date,
       leadId,
     })
+
+    return res.status(201).json(meeting);
+  }
+
+  public async update(req: Request, res: Response){
+    const data = req.body;
+
+    const meeting = await container.resolve(UpdateMeetingService).execute({ ...data })
 
     return res.status(201).json(meeting);
   }

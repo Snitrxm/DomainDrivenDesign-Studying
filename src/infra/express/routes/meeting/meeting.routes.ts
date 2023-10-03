@@ -3,4 +3,5 @@ import { MeetingController } from "../../../../application/meeting/controllers/m
 
 export const meetingRoutes = Router();
 
-meetingRoutes.post("/", new MeetingController().create)
+meetingRoutes.post("/", new MeetingController().create);
+meetingRoutes.patch("/", new MeetingController().update);

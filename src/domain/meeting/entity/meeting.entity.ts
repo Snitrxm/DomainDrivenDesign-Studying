@@ -1,4 +1,5 @@
 import { DomainError } from "../../@shared/errors";
+import { IMeetingStatus } from "../types";
 import { MeetingStatus } from "../value-object/meetingStatus";
 
 interface MeetingPropsInterface {
@@ -27,13 +28,19 @@ export class Meeting {
     if(!this._id) throw new DomainError("Id is required.")
     if(!this._leadId) throw new DomainError("LeadId is required.")
 
-    if(this._date < new Date()){
+    if(this._status.toString() === "CREATED" && new Date(this._date).getDay() < new Date().getDay()){
       throw new DomainError("Meeting date must be in future.")
     }
 
     if(!(this._status instanceof MeetingStatus)){
       throw new DomainError("Meeting status should be a instance of MeetingStatus.")
     }
+  }
+
+  public changeStatus(status: IMeetingStatus){
+    this._status = new MeetingStatus(status);
+    
+    this.validate();
   }
 
   get id(): string {

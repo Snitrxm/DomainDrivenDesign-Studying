@@ -1,1 +1,1 @@
-export type IMeetingStatus = "CREATED" | "IN_PROGRESS" | "FINISHED";
+export type IMeetingStatus = "CREATED" | "IN_PROGRESS" | "FINISHED" | string;

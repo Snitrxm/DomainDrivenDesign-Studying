@@ -5,3 +5,4 @@ export const meetingRoutes = Router();
 
 meetingRoutes.post("/", new MeetingController().create);
 meetingRoutes.patch("/", new MeetingController().update);
+meetingRoutes.get("/", new MeetingController().findAll);

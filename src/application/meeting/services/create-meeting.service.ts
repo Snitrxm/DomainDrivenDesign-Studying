@@ -5,7 +5,7 @@ import { Meeting } from "../../../domain/meeting/entity/meeting.entity";
 import { v4 } from "uuid";
 import { MeetingStatus } from "../../../domain/meeting/value-object/meetingStatus";
 import { IMeetingStatus } from "../../../domain/meeting/types";
-import { AlreadyExistError } from "../../@shared/errors";
+import { AlreadyExistError, NotFoundError } from "../../@shared/errors";
 
 interface RequestInterface {
   leadId: string;
@@ -32,12 +32,12 @@ export class CreateMeetingService {
     const lead = await this._leadRepository.find(data.leadId);
 
     if(!lead){
-      throw new Error("Lead not found.")
+      throw new NotFoundError("Lead not found.")
     }
 
     const meetingAlreadyExist = await this._meetingRepository.findBy({ where: "leadId", value: data.leadId });
 
-    if(meetingAlreadyExist){
+    if(meetingAlreadyExist) {
       throw new AlreadyExistError("Meeting already exist.")
     }
 

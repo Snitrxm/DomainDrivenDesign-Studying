@@ -11,11 +11,24 @@ datasource db {
 }
 
 model Lead {
-  id      String    @id @default(uuid())
-  name    String
-  Meeting Meeting[]
+  id        String      @id @default(uuid())
+  name      String
+  Meeting   Meeting[]
+  Email Email[]
 
+  @@index(fields: [id])
   @@map("leads")
+}
+
+model Email {
+  id     String @id @default(uuid())
+  lead   Lead   @relation(fields: [leadId], references: [id])
+  leadId String
+  email  String
+
+  @@unique(fields: [email])
+  @@index(fields: [email, leadId])
+  @@map("emails")
 }
 
 model Meeting {
@@ -25,5 +38,7 @@ model Meeting {
   date   DateTime
   status String
 
+  @@unique([id, leadId])
+  @@index(fields: [leadId, id])
   @@map("meetings")
 }

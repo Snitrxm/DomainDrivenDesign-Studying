@@ -4,6 +4,19 @@ import { MeetingStatus } from "../../../domain/meeting/value-object/meetingStatu
 import { prismaClient } from "../../../infra/database/orm/prisma";
 
 export class MeetingRepository implements MeetingRepositoryInterface {
+  public async findAll(): Promise<Meeting[]> {
+    const response = await prismaClient.meeting.findMany();
+
+    return response.map(meeting => {
+      return new Meeting({
+        date: meeting.date,
+        id: meeting.id,
+        leadId: meeting.leadId,
+        status: new MeetingStatus(meeting.status),
+      })
+    })
+  }
+
   public async update(entity: Meeting): Promise<void> {
     await prismaClient.meeting.update({ where: { id: entity.id }, data: {
       date: entity.date,

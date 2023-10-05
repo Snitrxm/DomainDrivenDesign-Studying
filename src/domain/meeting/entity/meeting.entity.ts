@@ -28,12 +28,12 @@ export class Meeting {
     if(!this._id) throw new DomainError("Id is required.")
     if(!this._leadId) throw new DomainError("LeadId is required.")
 
-    if(this._status.toString() === "CREATED" && new Date(this._date).getDay() < new Date().getDay()){
-      throw new DomainError("Meeting date must be in future.")
-    }
-
     if(!(this._status instanceof MeetingStatus)){
       throw new DomainError("Meeting status should be a instance of MeetingStatus.")
+    }
+    
+    if(this._status.toString() === "CREATED" && new Date(this._date) < new Date()){
+      throw new DomainError("Meeting date must be in future.")
     }
   }
 

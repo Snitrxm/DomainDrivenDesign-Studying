@@ -1,6 +1,6 @@
 import { DomainError } from "../../@shared/errors";
 
-interface LeadEmailRequestInterface {
+export interface LeadEmailRequestInterface {
   id: string;
   email: string;
 }

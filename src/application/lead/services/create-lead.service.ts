@@ -3,6 +3,7 @@ import { LeadRepositoryInterface } from "../../../domain/lead/repository/lead-re
 import { Lead } from "../../../domain/lead/entity/lead.entity";
 import { v4 } from "uuid";
 import { LeadEmail } from "../../../domain/lead/value-object/leadEmail";
+import { LeadFactory } from "../../../domain/lead/factory/lead.factory";
 
 @injectable()
 export class CreateLeadService {
@@ -12,20 +13,12 @@ export class CreateLeadService {
   ){}
 
   public async execute(): Promise<Lead> {
-    const lead = new Lead({ 
-      id: v4(), 
-      name: "Lead Test", 
-      emails: new LeadEmail([
-        {
-          id: v4(),
-          email: "test@email.com",
-        },
-        {
-          id: v4(),
-          email: "test2@email.com",
-        }
-      ]) 
-    });
+    const leadFactory = new LeadFactory();
+    
+    const lead = leadFactory.create({
+      emails: ["new@email.com", "new1@email.com"],
+      name: "newLead",
+    })
 
     await this._leadRepository.create(lead);
 
